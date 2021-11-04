@@ -9,6 +9,8 @@ public class GridGenerator : MonoBehaviour
     public int GridSize;
     public GameObject HexPrefab;
     private List<Transform> hexagons;
+    private const float HEXAGON_SIZE = 1f;
+    private const float Z_DISPLACEMENT = 0.75f;
 
     // Start is called before the first frame update
     void Start()
@@ -37,26 +39,37 @@ public class GridGenerator : MonoBehaviour
     {
         Transform hexTransform = Instantiate(HexPrefab).transform;
         hexTransform.parent = transform;
-        hexTransform.position = new Vector3(x, 0, z);
+        hexTransform.position = ToWorldPosition(new Vector2(x, z));
         hexTransform.name = "hex-" + x + "-" + z;
         hexagons.Add(hexTransform);
     }
 
-    #region TestMethods
+    private Vector3 ToWorldPosition(Vector2 gridPos)
+    {
+        float offset = 0f;
+        if (gridPos.y % 2 != 0)
+        {
+            offset = HEXAGON_SIZE / 2f;
+        }
+        float x = gridPos.x - offset;
+        float z = gridPos.y * Z_DISPLACEMENT;
+
+        return new Vector3(x, 0, z);
+    }
+
+    #region TestHelpers
     public bool CountHexagons(int equalsCount)
     {
         return equalsCount == hexagons.Count;
     }
 
-    public bool ValidatePositions(List<float[]> positions)
+    public bool ValidatePositions(List<Vector3> positions)
     {
-        bool xValid;
-        bool zValid;
+        bool valid;
         for (int i = 0; i < GridSize*GridSize; i++)
         {
-            xValid = hexagons[i].position.x == positions[i][0];
-            zValid = hexagons[i].position.z == positions[i][1];
-            if(!xValid || !zValid)
+            valid = hexagons[i].position == positions[i];
+            if(!valid)
             {
                 return false;
             }

@@ -8,12 +8,14 @@ public class GridGenerationTest
 {
     private GameObject gridObj;
     private GameObject prefab;
-    // A Test behaves as an ordinary method
+    private GridGenerator generator;
 
-    [SetUp]
+
+ [SetUp]
     public void SpawnGridGenerator()
     {
         gridObj = new GameObject("Grid");
+        generator = gridObj.AddComponent<GridGenerator>();
         prefab = new GameObject("hex");
         prefab.AddComponent<Hexagon>();
     }
@@ -21,7 +23,7 @@ public class GridGenerationTest
     [Test]
     public void Grid1x1()
     {
-        GridGenerator generator = gridObj.AddComponent<GridGenerator>();
+
         generator.GridSize = 1;
         generator.HexPrefab = prefab;
         generator.Initialize();
@@ -31,26 +33,22 @@ public class GridGenerationTest
     [Test]
     public void Grid3x3()
     {
-        GridGenerator generator = gridObj.AddComponent<GridGenerator>();
         generator.GridSize = 3;
         generator.HexPrefab = prefab;
         generator.Initialize();
-        Assert.IsTrue(generator.CountHexagons(9));
-        List<float[]> positions = new List<float[]>()
+        List<Vector3> positions = new List<Vector3>()
         {
-            new float[]{0, 0},
-            new float[]{1, 0},
-            new float[]{2, 0},
-            new float[]{0.5f, 0.75f},
-            new float[]{1.5f, 0.75f},
-            new float[]{2.5f, 0.75f},
-            new float[]{0, 1.5f},
-            new float[]{1, 1.5f},
-            new float[]{2, 1.5f}
+            new Vector3(0, 0, 0),
+            new Vector3(1, 0, 0),
+            new Vector3(2, 0, 0),
+            new Vector3(-0.5f, 0, 0.75f),
+            new Vector3(0.5f, 0, 0.75f),
+            new Vector3(1.5f, 0, 0.75f),
+            new Vector3(0, 0, 1.5f),
+            new Vector3(1, 0, 1.5f),
+            new Vector3(2, 0, 1.5f)
         };
         Assert.IsTrue(generator.ValidatePositions(positions));
     }
-
-
 
 }
