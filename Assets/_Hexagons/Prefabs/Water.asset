@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   Material: {fileID: 2100000, guid: 455e85b59a3713949b6f47b51887838d, type: 2}
-  Cost: 999999
+  Cost: 0
