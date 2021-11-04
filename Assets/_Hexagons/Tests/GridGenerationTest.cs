@@ -9,32 +9,34 @@ public class GridGenerationTest
     private GameObject gridObj;
     private GameObject prefab;
     private GridGenerator generator;
+    private HexagonType type;
 
 
- [SetUp]
+    [SetUp]
     public void SpawnGridGenerator()
     {
         gridObj = new GameObject("Grid");
         generator = gridObj.AddComponent<GridGenerator>();
-        prefab = new GameObject("hex");
-        prefab.AddComponent<Hexagon>();
+        prefab = Resources.Load<GameObject>("Hexagon"); 
+        generator.HexPrefab = prefab;
+        type = Resources.Load<HexagonType>("Grass");
+        generator.Types = new HexagonType[1] { type };
     }
+    
 
     [Test]
     public void Grid1x1()
     {
 
         generator.GridSize = 1;
-        generator.HexPrefab = prefab;
         generator.Initialize();
-        Assert.IsTrue(generator.CountHexagons(1));
+        Assert.IsTrue(generator.IsCountOfHexagonsEqualsTo(1));
     }
 
     [Test]
     public void Grid3x3()
     {
         generator.GridSize = 3;
-        generator.HexPrefab = prefab;
         generator.Initialize();
         List<Vector3> positions = new List<Vector3>()
         {
@@ -48,7 +50,15 @@ public class GridGenerationTest
             new Vector3(1, 0, 1.5f),
             new Vector3(2, 0, 1.5f)
         };
-        Assert.IsTrue(generator.ValidatePositions(positions));
+        Assert.IsTrue(generator.ArePositionsEqualsTo(positions));
+    }
+
+    [Test]
+    public void Grid1x1Type()
+    {
+        generator.GridSize = 1;
+        generator.Initialize();
+        Assert.IsTrue(generator.TypeAtPositionEqualsTo(0, type));
     }
 
 }
