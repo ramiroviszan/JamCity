@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class Hexagon : MonoBehaviour, IAStarNode
 {
+
     public int Index;
+
     private HexagonType hexType;
     public HexagonType HexType {
         get {
@@ -21,6 +23,8 @@ public class Hexagon : MonoBehaviour, IAStarNode
     private List<Hexagon> neighbours = new List<Hexagon>(6);
     public IEnumerable<IAStarNode> Neighbours => neighbours;
 
+    private const string FORBIDDEN_TYPE = "Water";
+
     public float CostTo(IAStarNode neighbour)
     {
         return hexType.Cost;
@@ -33,6 +37,9 @@ public class Hexagon : MonoBehaviour, IAStarNode
 
     public void AddNeighbour(Hexagon hexagon)
     {
-        neighbours.Add(hexagon);
+        if (hexagon.HexType.name != FORBIDDEN_TYPE)
+        {
+            neighbours.Add(hexagon);
+        }
     }
 }

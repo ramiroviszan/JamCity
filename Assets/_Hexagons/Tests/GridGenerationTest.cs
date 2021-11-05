@@ -79,9 +79,7 @@ public class GridGenerationTest
     [Test]
     public void GridConnection()
     {
-        generator.GridSize = 3;
-        generator.Initialize();
-        Dictionary<int, int[]> connections = new Dictionary<int, int[]>()
+        Dictionary<int, int[]> expectedConnections = new Dictionary<int, int[]>()
         {
             {0, new int[3] { 1, 3, 4 } },
             {1, new int[4] { 0, 2, 4, 5} },
@@ -93,9 +91,24 @@ public class GridGenerationTest
             {7, new int [4] {4, 5, 6, 8} },
             {8, new int [2] {5, 7} }
         };
-        List<Hexagon> hexagons = generator.Hexagons;
+        generator.GridSize = 3;
 
-        Assert.IsTrue(AreConnectionsEqualsTo(connections, hexagons));
+        generator.Initialize();
+      
+        Assert.IsTrue(AreConnectionsEqualsTo(expectedConnections, generator.Hexagons));
+    }
+
+    [Test]
+    public void GridConnectionWater()
+    {
+        Dictionary<int, int[]> noConnections = new Dictionary<int, int[]>();
+        generator.GridSize = 3;
+        type = Resources.Load<HexagonType>("Water");
+        generator.Types = new HexagonType[1] { type };
+        
+        generator.Initialize();
+
+        Assert.IsTrue(AreConnectionsEqualsTo(noConnections, generator.Hexagons));
     }
 
     private bool AreConnectionsEqualsTo(Dictionary<int, int[]> connections, List<Hexagon> hexagons)
