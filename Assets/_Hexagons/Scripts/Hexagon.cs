@@ -32,7 +32,7 @@ public class Hexagon : MonoBehaviour, IAStarNode
 
     public float EstimatedCostTo(IAStarNode target)
     {
-        return 0;
+        return Vector3.Distance(transform.position, ((Hexagon)target).transform.position);
     }
 
     public void AddNeighbour(Hexagon hexagon)

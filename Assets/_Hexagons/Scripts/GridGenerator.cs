@@ -13,7 +13,6 @@ public class GridGenerator : MonoBehaviour
     private const float HEXAGON_SIZE = 1f;
     private const float Z_DISPLACEMENT = 0.75f;
 
-    // Start is called before the first frame update
     void Start()
     {
         Initialize();
@@ -26,6 +25,13 @@ public class GridGenerator : MonoBehaviour
         ConnectGrid();
     }
 
+    public void InitializeWithDescriptor(Dictionary<int, HexagonType> descriptor)
+    {
+        Hexagons = new List<Hexagon>(GridSize * GridSize);
+        CreateGrid(descriptor);
+        ConnectGrid();
+    }
+
     private void CreateGrid()
     {
         for (int z = 0; z < GridSize; z++)
@@ -33,9 +39,25 @@ public class GridGenerator : MonoBehaviour
             for (int x = 0; x < GridSize; x++)
             {
                 Hexagon hex = CreateHexagon(x, z);
-                SetHexagonType(hex);
                 hex.Index = Hexagons.Count;
+                SetRandomHexagonType(hex);
                 Hexagons.Add(hex);
+            }
+        }
+    }
+
+    private void CreateGrid(Dictionary<int, HexagonType> descriptor)
+    {
+        int index = 0;
+        for (int z = 0; z < GridSize; z++)
+        {
+            for (int x = 0; x < GridSize; x++)
+            {
+                Hexagon hex = CreateHexagon(x, z);
+                hex.Index = Hexagons.Count;
+                hex.HexType = descriptor[index];
+                Hexagons.Add(hex);
+                index++;
             }
         }
     }
@@ -68,7 +90,7 @@ public class GridGenerator : MonoBehaviour
         return z % 2 != 0;
     }
 
-    private void SetHexagonType(Hexagon hex)
+    private void SetRandomHexagonType(Hexagon hex)
     {
         int random = UnityEngine.Random.Range(0, Types.Length);
         hex.HexType = Types[random];
