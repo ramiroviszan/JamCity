@@ -332,6 +332,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridSize: 3
   HexPrefab: {fileID: 42646274798864435, guid: cfb0cc7df218beb4aa82272503915eee, type: 3}
+  Types:
+  - {fileID: 11400000, guid: 771221fcbe92dc04ba218d4db65be994, type: 2}
+  - {fileID: 11400000, guid: 393e52ebb64b61f42aae2044cb855dad, type: 2}
+  - {fileID: 11400000, guid: fb0f8a216639cae4ab99f35880e6afef, type: 2}
+  - {fileID: 11400000, guid: 483883ef342a6af4fb1e81b57eb58557, type: 2}
+  - {fileID: 11400000, guid: c2583f2c49810ec4da07b1a62715bb4d, type: 2}
 --- !u!4 &1813519784
 Transform:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class GridGenerator : MonoBehaviour
     public int GridSize;
     public GameObject HexPrefab;
     public HexagonType[] Types;
-    private List<Hexagon> hexagons;
+    public List<Hexagon> Hexagons { get; private set; }
     private const float HEXAGON_SIZE = 1f;
     private const float Z_DISPLACEMENT = 0.75f;
 
@@ -21,8 +21,9 @@ public class GridGenerator : MonoBehaviour
 
     public void Initialize()
     {
-        hexagons = new List<Hexagon>(GridSize * GridSize);
+        Hexagons = new List<Hexagon>(GridSize * GridSize);
         CreateGrid();
+        ConnectGrid();
     }
 
     private void CreateGrid()
@@ -33,7 +34,8 @@ public class GridGenerator : MonoBehaviour
             {
                 Hexagon hex = CreateHexagon(x, z);
                 SetHexagonType(hex);
-                hexagons.Add(hex);
+                hex.Index = Hexagons.Count;
+                Hexagons.Add(hex);
             }
         }
     }
@@ -51,7 +53,7 @@ public class GridGenerator : MonoBehaviour
     private Vector3 ToWorldPosition(Vector2 gridPos)
     {
         float offset = 0f;
-        if (gridPos.y % 2 != 0)
+        if (OddRow(gridPos))
         {
             offset = HEXAGON_SIZE / 2f;
         }
@@ -61,6 +63,10 @@ public class GridGenerator : MonoBehaviour
         return new Vector3(x, 0, z);
     }
 
+    private bool OddRow(Vector2 gridPos)
+    {
+        return gridPos.y % 2 != 0;
+    }
 
     private void SetHexagonType(Hexagon hex)
     {
@@ -68,31 +74,9 @@ public class GridGenerator : MonoBehaviour
         hex.HexType = Types[random];
     }
 
-
-    #region TestHelpers
-    public bool IsCountOfHexagonsEqualsTo(int equalsCount)
+    private void ConnectGrid()
     {
-        return equalsCount == hexagons.Count;
+        BruteForceConnect connector = new BruteForceConnect(Hexagons);
+        connector.Connect();
     }
-
-    public bool ArePositionsEqualsTo(List<Vector3> positions)
-    {
-        bool valid;
-        for (int i = 0; i < GridSize*GridSize; i++)
-        {
-            valid = hexagons[i].transform.position == positions[i];
-            if(!valid)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public bool TypeAtPositionEqualsTo(int pos, HexagonType type)
-    {
-        return hexagons[pos].HexType == type;
-    }
-
-    #endregion
 }
