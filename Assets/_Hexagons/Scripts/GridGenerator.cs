@@ -44,28 +44,28 @@ public class GridGenerator : MonoBehaviour
     {
         Transform hexTransform = Instantiate(HexPrefab).transform;
         hexTransform.parent = transform;
-        hexTransform.position = ToWorldPosition(new Vector2(x, z));
+        hexTransform.position = ToWorldPosition(x, z);
         hexTransform.name = "hex-" + x + "-" + z;
         return hexTransform.GetComponent<Hexagon>();
  
     }
 
-    private Vector3 ToWorldPosition(Vector2 gridPos)
+    private Vector3 ToWorldPosition(float x, float z)
     {
         float offset = 0f;
-        if (OddRow(gridPos))
+        if (OddRow(z))
         {
             offset = HEXAGON_SIZE / 2f;
         }
-        float x = gridPos.x - offset;
-        float z = gridPos.y * Z_DISPLACEMENT;
+        float xCoord = x - offset;
+        float zCoord = z * Z_DISPLACEMENT;
 
-        return new Vector3(x, 0, z);
+        return new Vector3(xCoord, 0, zCoord);
     }
 
-    private bool OddRow(Vector2 gridPos)
+    private bool OddRow(float z)
     {
-        return gridPos.y % 2 != 0;
+        return z % 2 != 0;
     }
 
     private void SetHexagonType(Hexagon hex)

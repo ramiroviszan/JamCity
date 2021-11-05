@@ -73,7 +73,7 @@ public class GridGenerationTest
     {
         generator.GridSize = 1;
         generator.Initialize();
-        Assert.AreEqual(type, generator.Hexagons[0]);
+        Assert.AreEqual(type, generator.Hexagons[0].HexType);
     }
 
     [Test]
