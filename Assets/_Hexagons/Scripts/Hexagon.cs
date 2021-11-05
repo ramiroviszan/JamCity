@@ -23,7 +23,7 @@ public class Hexagon : MonoBehaviour, IAStarNode
     private List<Hexagon> neighbours = new List<Hexagon>(6);
     public IEnumerable<IAStarNode> Neighbours => neighbours;
 
-    private const string FORBIDDEN_TYPE = "Water";
+    public static readonly string FORBIDDEN_TYPE = "Water";
 
     public float CostTo(IAStarNode neighbour)
     {
