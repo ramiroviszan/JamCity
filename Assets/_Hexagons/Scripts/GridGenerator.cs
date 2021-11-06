@@ -3,15 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GridGenerator : MonoBehaviour
 {
-
+    //Editor variables
     public int GridSize;
     public GameObject HexPrefab;
     public HexagonType[] Types;
+
+    //Public properties
     public List<Hexagon> Hexagons { get; private set; }
+
+    //Private fields
+    private IGridConnector connector;
+
+    //Constants
     private const float HEXAGON_SIZE = 1f;
     private const float Z_DISPLACEMENT = 0.75f;
+
+    private void Awake()
+    {
+        connector = GetComponent<IGridConnector>();
+    }
 
     void Start()
     {
@@ -22,14 +35,22 @@ public class GridGenerator : MonoBehaviour
     {
         Hexagons = new List<Hexagon>(GridSize * GridSize);
         CreateGrid();
-        ConnectGrid();
+        if(connector == null)
+        {
+            connector = GetComponent<IGridConnector>();
+        }
+        connector.ConnectGrid(Hexagons);
     }
 
     public void InitializeWithDescriptor(Dictionary<int, HexagonType> descriptor)
     {
         Hexagons = new List<Hexagon>(GridSize * GridSize);
         CreateGrid(descriptor);
-        ConnectGrid();
+        if (connector == null)
+        {
+            connector = GetComponent<IGridConnector>();
+        }
+        connector.ConnectGrid(Hexagons);
     }
 
     private void CreateGrid()
@@ -96,9 +117,4 @@ public class GridGenerator : MonoBehaviour
         hex.HexType = Types[random];
     }
 
-    private void ConnectGrid()
-    {
-        BruteForceConnect connector = new BruteForceConnect(Hexagons);
-        connector.Connect();
-    }
 }

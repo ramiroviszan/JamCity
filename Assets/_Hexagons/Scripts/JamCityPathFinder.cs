@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class PathFinder : MonoBehaviour
+public class JamCityPathFinder : MonoBehaviour, IPathFinder
 {
     public Hexagon[] FindPath(Hexagon start, Hexagon end)
     {

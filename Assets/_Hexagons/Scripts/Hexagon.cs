@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class Hexagon : MonoBehaviour, IAStarNode
 {
+    //Global constants
+    public static readonly string FORBIDDEN_TYPE = "Water";
 
-    public int Index;
+    //Public properties
+    public int Index { get; set; }
 
     private HexagonType hexType;
     public HexagonType HexType {
@@ -23,7 +26,6 @@ public class Hexagon : MonoBehaviour, IAStarNode
     private List<Hexagon> neighbours = new List<Hexagon>(6);
     public IEnumerable<IAStarNode> Neighbours => neighbours;
 
-    public static readonly string FORBIDDEN_TYPE = "Water";
 
     public float CostTo(IAStarNode neighbour)
     {

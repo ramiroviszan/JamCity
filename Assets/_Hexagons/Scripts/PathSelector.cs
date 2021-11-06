@@ -4,31 +4,32 @@ using UnityEngine;
 using System.Linq;
 
 [RequireComponent(typeof(Camera))]
+[RequireComponent(typeof(IPathFinder))]
 public class PathSelector : MonoBehaviour
 {
 
     private Camera cam;
     private RaycastHit hitInformation;
-    private PathFinder pathFinder;
+    private IPathFinder pathFinder;
     private Hexagon hexStart;
     private Hexagon hexEnd;
     private Hexagon[] path;
     private Renderer hexRenderer;
 
-    private void Awake()
+    void Awake()
     {
         cam = GetComponent<Camera>();
-        pathFinder = GetComponent<PathFinder>();
+        pathFinder = GetComponent<IPathFinder>();
     }
 
-    private void Update()
+    void Update()
     {
         Select();
     }
 
     private void Select()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Ray touchWorldPosition = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(touchWorldPosition, out hitInformation))

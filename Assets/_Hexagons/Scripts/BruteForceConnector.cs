@@ -2,16 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BruteForceConnect
+public class BruteForceConnector : MonoBehaviour, IGridConnector
 {
-    private List<Hexagon> hexagons;
     private const float MAX_DISTANCE = 1.2f;
-    public BruteForceConnect(List<Hexagon> hexas)
-    {
-        hexagons = hexas;
-    }
 
-    public void Connect()
+    public void ConnectGrid(List<Hexagon> hexagons)
     {
         float dist;
         foreach (var hex1 in hexagons)

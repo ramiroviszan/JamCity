@@ -11,7 +11,7 @@ public class GridGenerationTest
     private GameObject prefab;
     private GridGenerator generator;
     private HexagonType type;
-
+  
 
     [SetUp]
     public void SpawnGridGenerator()
@@ -22,6 +22,7 @@ public class GridGenerationTest
         generator.HexPrefab = prefab;
         type = Resources.Load<HexagonType>("Grass");
         generator.Types = new HexagonType[1] { type };
+        gridObj.AddComponent<BruteForceConnector>();
     }
     
 
@@ -54,19 +55,7 @@ public class GridGenerationTest
         Assert.IsTrue(ArePositionsEqualsTo(positions));
     }
 
-    private  bool ArePositionsEqualsTo(List<Vector3> positions)
-    {
-        bool valid;
-        for (int i = 0; i < generator.GridSize * generator.GridSize; i++)
-        {
-            valid = generator.Hexagons[i].transform.position == positions[i];
-            if (!valid)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+   
 
     [Test]
     public void Grid1x1Type()
@@ -109,6 +98,20 @@ public class GridGenerationTest
         generator.Initialize();
 
         Assert.IsTrue(AreConnectionsEqualsTo(noConnections, generator.Hexagons));
+    }
+
+    private bool ArePositionsEqualsTo(List<Vector3> positions)
+    {
+        bool valid;
+        for (int i = 0; i < generator.GridSize * generator.GridSize; i++)
+        {
+            valid = generator.Hexagons[i].transform.position == positions[i];
+            if (!valid)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private bool AreConnectionsEqualsTo(Dictionary<int, int[]> connections, List<Hexagon> hexagons)
