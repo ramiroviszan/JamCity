@@ -72,7 +72,23 @@ public class PathSelector : MonoBehaviour
         MoveUp(hexEnd);
         PaintHex(hexEnd, Color.green);
         path = pathFinder.FindPath(hexStart, hexEnd);
-        PaintPath();
+        if(path.Length > 0)
+        {
+            PaintPath();
+            hexStart = null;
+            hexEnd = null;
+        } else
+        {
+            ClearStartAndEnd();
+        }
+    }
+
+    private void ClearStartAndEnd()
+    {
+        PaintHex(hexStart, Color.white);
+        PaintHex(hexEnd, Color.white);
+        MoveDown(hexStart);
+        MoveDown(hexEnd);
         hexStart = null;
         hexEnd = null;
     }
@@ -111,7 +127,7 @@ public class PathSelector : MonoBehaviour
     private void MoveDown(Hexagon hex)
     {
         position = hex.transform.position;
-        position.y -= MOVE_UP_AMOUNT;
+        position.y = 0f;
         hex.transform.position = position;
     }
 
