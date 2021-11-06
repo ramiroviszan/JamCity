@@ -4,56 +4,105 @@ using UnityEngine;
 
 public class SmartHexagonConnector : MonoBehaviour, IGridConnector
 {
-
-    public void ConnectGrid(List<Hexagon> hexagons)
+    private List<Hexagon> hexagons;
+    private int gridSize;
+    private Hexagon currentHex;
+    public void ConnectGrid(List<Hexagon> allHexagons)
     {
+        hexagons = allHexagons;
+        gridSize = (int)Mathf.Sqrt(hexagons.Count);
         foreach (var hex in hexagons)
         {
-            ConnectHexagon(hex, hexagons);
+            currentHex = hex;
+            ConnectHexagon();
         }
     }
 
-    private void ConnectHexagon(Hexagon hex, List<Hexagon> hexagons)
+    private void ConnectHexagon()
     {
-        int x = hex.XGrid;
-        int z = hex.ZGrid;
-        int gridSize = (int) Mathf.Sqrt(hexagons.Count);
+        int x = currentHex.XGrid;
+        int z = currentHex.ZGrid;
 
-        // Left
-        if (x > 0) hex.AddNeighbour(hexagons[x - 1 + z * gridSize]);
+        ConnectLeft(x, z);
+        ConnectRight(x, z);
 
-        // Right 
-        if (x < gridSize - 1) hex.AddNeighbour(hexagons[x + 1 + z * gridSize]);
-
-        if (z % 2 == 0)
+        if (IsOddRow(z))
         {
-            // Bottom Left
-            if (z > 0) hex.AddNeighbour(hexagons[x + (z - 1) * gridSize]);
-
-            // Bottom Right 
-            if (x < gridSize - 1 && z > 0) hex.AddNeighbour(hexagons[(x + 1) + (z - 1) * gridSize]);
-
-            // Top Left 
-            if (z < gridSize - 1) hex.AddNeighbour(hexagons[x  + (z + 1) * gridSize]);
-
-            // Top Right 
-            if (x < gridSize -1 && z < gridSize - 1) hex.AddNeighbour(hexagons[(x + 1) + (z + 1) * gridSize]);
-
-         
+            ConnectOddBottomLeft(x, z);
+            ConnectOddBottomRight(x, z);
+            ConnectOddTopLeft(x, z);
+            ConnectOddTopRight(x, z);
         }
         else
         {
-            // Bottom Left 
-            if (x > 0 && z > 0) hex.AddNeighbour(hexagons[(x - 1) + (z - 1) * gridSize]);
-
-            // Bottom Right
-            if (z > 0) hex.AddNeighbour(hexagons[x + (z - 1) * gridSize]);
-
-            // Top Left  
-            if (x > 0 && z < gridSize - 1) hex.AddNeighbour(hexagons[(x - 1) + (z + 1) * gridSize]);
-
-            // Top Right 
-            if (z < gridSize - 1) hex.AddNeighbour(hexagons[x  + (z + 1) * gridSize]);
+            ConnectEvenBottomLeft(x, z);
+            ConnectEvenBottomRight(x, z);
+            ConnectEvenTopLeft(x, z);
+            ConnectEvenTopRight(x, z);
         }
     }
+
+    private static bool IsOddRow(int z)
+    {
+        return z % 2 != 0;
+    }
+
+    private void ConnectLeft(int x, int z)
+    {
+        if (x > 0)
+            currentHex.AddNeighbour(hexagons[x - 1 + z * gridSize]);
+    }
+
+    private void ConnectRight(int x, int z)
+    {
+        if (x < gridSize - 1) 
+            currentHex.AddNeighbour(hexagons[x + 1 + z * gridSize]);
+    }
+
+    private void ConnectOddBottomLeft(int x, int z)
+    {
+        if (x > 0 && z > 0) 
+            currentHex.AddNeighbour(hexagons[(x - 1) + (z - 1) * gridSize]);
+    }
+
+    private void ConnectOddBottomRight(int x, int z)
+    {
+        if (z > 0) 
+            currentHex.AddNeighbour(hexagons[x + (z - 1) * gridSize]);
+    }
+
+    private void ConnectOddTopLeft(int x, int z)
+    {
+        if (x > 0 && z < gridSize - 1) 
+            currentHex.AddNeighbour(hexagons[(x - 1) + (z + 1) * gridSize]);
+    }
+
+    private void ConnectOddTopRight(int x, int z)
+    {
+        if (z < gridSize - 1) 
+            currentHex.AddNeighbour(hexagons[x + (z + 1) * gridSize]);
+    }
+    private void ConnectEvenBottomLeft(int x, int z)
+    {
+        if (z > 0) currentHex.AddNeighbour(hexagons[x + (z - 1) * gridSize]);
+    }
+
+    private void ConnectEvenBottomRight(int x, int z)
+    {
+        if (x < gridSize - 1 && z > 0) 
+            currentHex.AddNeighbour(hexagons[(x + 1) + (z - 1) * gridSize]);
+    }
+
+    private void ConnectEvenTopLeft(int x, int z)
+    {
+        if (z < gridSize - 1) 
+            currentHex.AddNeighbour(hexagons[x + (z + 1) * gridSize]);
+    }
+
+    private void ConnectEvenTopRight(int x, int z)
+    {
+        if (x < gridSize - 1 && z < gridSize - 1) 
+            currentHex.AddNeighbour(hexagons[(x + 1) + (z + 1) * gridSize]);
+    }
+
 }
