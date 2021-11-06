@@ -15,6 +15,7 @@ public class PathSelector : MonoBehaviour
     private Hexagon hexEnd;
     private Hexagon[] path;
     private Renderer hexRenderer;
+    private Vector3 position;
 
     void Awake()
     {
@@ -61,11 +62,13 @@ public class PathSelector : MonoBehaviour
     private void SetStart()
     {
         ClearPreviousPath();
+        MoveUp(hexStart);
         PaintHex(hexStart, Color.green);
     }
 
     private void SetEnd()
     {
+        MoveUp(hexEnd);
         PaintHex(hexEnd, Color.green);
         path = pathFinder.FindPath(hexStart, hexEnd);
         PaintPath();
@@ -79,6 +82,7 @@ public class PathSelector : MonoBehaviour
         {
             foreach (var hex in path)
             {
+                ResetPosition(hex);
                 PaintHex(hex, Color.white);
             }
             path = null;
@@ -86,12 +90,27 @@ public class PathSelector : MonoBehaviour
         
     }
 
+    private void ResetPosition(Hexagon hex)
+    {
+        position = hex.transform.position;
+        position.y = 0f;
+        hex.transform.position = position;
+    }
+
     private void PaintPath()
     {
         foreach (var hex in SkipStartAndEnd())
         {
+            MoveUp(hex);
             PaintHex(hex, Color.red);
         }
+    }
+
+    private void MoveUp(Hexagon hex)
+    {
+        position = hex.transform.position;
+        position.y += 0.2f;
+        hex.transform.position = position;
     }
 
     private IEnumerable<Hexagon> SkipStartAndEnd()
@@ -107,5 +126,6 @@ public class PathSelector : MonoBehaviour
             hexRenderer.material.SetColor("_Color", color);
         }
     }
+
 
 }
