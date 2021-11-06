@@ -16,6 +16,7 @@ public class PathSelector : MonoBehaviour
     private Hexagon[] path;
     private Renderer hexRenderer;
     private Vector3 position;
+    private const float MOVE_UP_AMOUNT = 0.2f;
 
     void Awake()
     {
@@ -50,7 +51,7 @@ public class PathSelector : MonoBehaviour
                 hexStart = hex;
                 SetStart();
             }
-            else
+            else if(hex != hexStart)
             {
                 hexEnd = hex;
                 SetEnd();
@@ -82,7 +83,7 @@ public class PathSelector : MonoBehaviour
         {
             foreach (var hex in path)
             {
-                ResetPosition(hex);
+                MoveDown(hex);
                 PaintHex(hex, Color.white);
             }
             path = null;
@@ -90,12 +91,6 @@ public class PathSelector : MonoBehaviour
         
     }
 
-    private void ResetPosition(Hexagon hex)
-    {
-        position = hex.transform.position;
-        position.y = 0f;
-        hex.transform.position = position;
-    }
 
     private void PaintPath()
     {
@@ -109,7 +104,14 @@ public class PathSelector : MonoBehaviour
     private void MoveUp(Hexagon hex)
     {
         position = hex.transform.position;
-        position.y += 0.2f;
+        position.y += MOVE_UP_AMOUNT;
+        hex.transform.position = position;
+    }
+
+    private void MoveDown(Hexagon hex)
+    {
+        position = hex.transform.position;
+        position.y -= MOVE_UP_AMOUNT;
         hex.transform.position = position;
     }
 
