@@ -26,6 +26,8 @@ public class Hexagon : MonoBehaviour, IAStarNode
     private List<Hexagon> neighbours = new List<Hexagon>(6);
     public IEnumerable<IAStarNode> Neighbours => neighbours;
 
+    public int XGrid { get; set; }
+    public int ZGrid { get; set; }
 
     public float CostTo(IAStarNode neighbour)
     {

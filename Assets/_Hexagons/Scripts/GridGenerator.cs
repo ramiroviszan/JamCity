@@ -61,6 +61,8 @@ public class GridGenerator : MonoBehaviour
             {
                 Hexagon hex = CreateHexagon(x, z);
                 hex.Index = Hexagons.Count;
+                hex.XGrid = x;
+                hex.ZGrid = z;
                 SetRandomHexagonType(hex);
                 Hexagons.Add(hex);
             }
@@ -76,6 +78,8 @@ public class GridGenerator : MonoBehaviour
             {
                 Hexagon hex = CreateHexagon(x, z);
                 hex.Index = Hexagons.Count;
+                hex.XGrid = x;
+                hex.ZGrid = z;
                 hex.HexType = descriptor[index];
                 Hexagons.Add(hex);
                 index++;

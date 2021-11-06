@@ -28,7 +28,7 @@ public class AStarTest
         mountain = Resources.Load<HexagonType>("Mountain");
         water = Resources.Load<HexagonType>("Water");
         generator.Types = new HexagonType[3] { grass, mountain, water };
-        gridObj.AddComponent<BruteForceConnector>();
+        gridObj.AddComponent<SmartHexagonConnector>();
         pathFinderObj = new GameObject("PathFinder");
         pathFinder = pathFinderObj.AddComponent<JamCityPathFinder>();
 

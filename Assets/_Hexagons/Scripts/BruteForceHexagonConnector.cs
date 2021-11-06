@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BruteForceConnector : MonoBehaviour, IGridConnector
+public class BruteForceHexagonConnector : MonoBehaviour, IGridConnector
 {
     private const float MAX_DISTANCE = 1.2f;
 

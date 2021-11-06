@@ -22,7 +22,7 @@ public class GridGenerationTest
         generator.HexPrefab = prefab;
         type = Resources.Load<HexagonType>("Grass");
         generator.Types = new HexagonType[1] { type };
-        gridObj.AddComponent<BruteForceConnector>();
+        gridObj.AddComponent<BruteForceHexagonConnector>();
     }
     
 
