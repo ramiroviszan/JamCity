@@ -14,14 +14,17 @@ public class GridGenerationTest
   
 
     [SetUp]
-    public void SpawnGridGenerator()
+    public void SetUpGridGenerator()
     {
         gridObj = new GameObject("Grid");
         generator = gridObj.AddComponent<GridGenerator>();
+        
         prefab = Resources.Load<GameObject>("Hexagon"); 
         generator.HexPrefab = prefab;
+        
         type = Resources.Load<HexagonType>("Grass");
         generator.Types = new HexagonType[1] { type };
+        
         gridObj.AddComponent<BruteForceHexagonConnector>();
     }
     
@@ -29,7 +32,6 @@ public class GridGenerationTest
     [Test]
     public void Grid1x1()
     {
-
         generator.GridSize = 1;
         generator.Initialize();
         Assert.AreEqual(1, generator.Hexagons.Count);

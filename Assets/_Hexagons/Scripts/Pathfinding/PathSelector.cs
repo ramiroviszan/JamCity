@@ -42,7 +42,7 @@ public class PathSelector : MonoBehaviour
     private void OnHexagonSelected()
     {
         Hexagon hex = hitInformation.transform.GetComponent<Hexagon>();
-        if (hex && hex.HexType.name != Hexagon.FORBIDDEN_TYPE)
+        if (hex && hex.HexType.name != Constants.FORBIDDEN_TYPE)
         {
             if (hexStart == null)
             {

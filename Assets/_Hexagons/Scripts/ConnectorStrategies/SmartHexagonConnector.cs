@@ -7,6 +7,7 @@ public class SmartHexagonConnector : MonoBehaviour, IGridConnector
     private List<Hexagon> hexagons;
     private int gridSize;
     private Hexagon currentHex;
+
     public void ConnectGrid(List<Hexagon> allHexagons)
     {
         hexagons = allHexagons;

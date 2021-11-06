@@ -18,17 +18,21 @@ public class AStarTest
 
 
     [SetUp]
-    public void SpawnGridGenerator()
+    public void SetUpGridGenerator()
     {
         gridObj = new GameObject("Grid");
         generator = gridObj.AddComponent<GridGenerator>();
+
         hexPrefab = Resources.Load<GameObject>("Hexagon");
         generator.HexPrefab = hexPrefab;
+        
         grass = Resources.Load<HexagonType>("Grass");
         mountain = Resources.Load<HexagonType>("Mountain");
         water = Resources.Load<HexagonType>("Water");
         generator.Types = new HexagonType[3] { grass, mountain, water };
+        
         gridObj.AddComponent<SmartHexagonConnector>();
+        
         pathFinderObj = new GameObject("PathFinder");
         pathFinder = pathFinderObj.AddComponent<JamCityPathFinder>();
 
@@ -59,6 +63,4 @@ public class AStarTest
         Assert.AreEqual(5, path[2].Index);
         Assert.AreEqual(8, path[3].Index);
     }
-
-
 }
