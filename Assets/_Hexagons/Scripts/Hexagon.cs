@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Hexagon : MonoBehaviour, IAStarNode
 {
-    //Global constants
-    public static readonly string FORBIDDEN_TYPE = "Water";
 
     //Public properties
     public int Index { get; set; }
@@ -41,7 +39,7 @@ public class Hexagon : MonoBehaviour, IAStarNode
 
     public void AddNeighbour(Hexagon hexagon)
     {
-        if (hexagon.HexType.name != FORBIDDEN_TYPE)
+        if (hexagon.HexType.name != Constants.FORBIDDEN_TYPE)
         {
             neighbours.Add(hexagon);
         }

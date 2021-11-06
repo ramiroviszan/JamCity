@@ -10,12 +10,15 @@ public class GridGenerator : MonoBehaviour
     public int GridSize;
     public GameObject HexPrefab;
     public HexagonType[] Types;
+    public float DelayFactor = 20f;
 
     //Public properties
     public List<Hexagon> Hexagons { get; private set; }
 
     //Private fields
     private IGridConnector connector;
+    private Transform hexTransform;
+    private HexagonSpawnAnimator animator;
 
     //Constants
     private const float HEXAGON_SIZE = 1f;
@@ -89,10 +92,12 @@ public class GridGenerator : MonoBehaviour
 
     private Hexagon CreateHexagon(int x, int z)
     {
-        Transform hexTransform = Instantiate(HexPrefab).transform;
-        hexTransform.parent = transform;
-        hexTransform.position = ToWorldPosition(x, z);
+        hexTransform = Instantiate(HexPrefab).transform;
         hexTransform.name = "hex-" + x + "-" + z;
+        hexTransform.parent = transform;
+        animator = hexTransform.GetComponent<HexagonSpawnAnimator>();
+        float startDelayInSecs = 1 + (GridSize * GridSize - Hexagons.Count) / DelayFactor;
+        animator.SetDestination(ToWorldPosition(x, z), startDelayInSecs);
         return hexTransform.GetComponent<Hexagon>();
  
     }

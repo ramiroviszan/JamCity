@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1988197397054810598}
   - component: {fileID: -496125677762263285}
   - component: {fileID: -8160450194798065885}
+  - component: {fileID: 770537023943197921}
   m_Layer: 0
   m_Name: Hexagon
   m_TagString: Untagged
@@ -111,4 +112,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf3416a7f2d3994f927b80aa85a3dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Index: 0
+--- !u!114 &770537023943197921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42646274798864435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9531de41a2dea44ab37094e91113f2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OffScreenSpawnPosition: {x: 3, y: 0, z: -4}
+  Speed: 6
+  NearEnough: 0.05
