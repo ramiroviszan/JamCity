@@ -31,7 +31,7 @@ public class PathSelector : MonoBehaviour
 
     private void Select()
     {
-        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (UserInteracted())
         {
             Ray touchWorldPosition = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(touchWorldPosition, out hitInformation))
@@ -39,6 +39,11 @@ public class PathSelector : MonoBehaviour
                 OnHexagonSelected();
             }
         }
+    }
+
+    private bool UserInteracted()
+    {
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began || Input.GetMouseButtonDown(0);
     }
 
     private void OnHexagonSelected()
